@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  labels:
+    app: customers-service
+  name: customers-service-statefulset
+  namespace: spring-petclinic
+spec:
+  serviceName: customers-service
+  selector:
+    matchLabels:
+      app: customers-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: customers-service
+    spec:
+      containers:
+      - name: customers-service
+        image: springcommunity/spring-petclinic-cloud-customers-service:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: "http"
+        livenessProbe:
+          httpGet:
+            port: 8080
+            path: /actuator/health/liveness
+          initialDelaySeconds: 90
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            port: 8080
+            path: /actuator/health/readiness
+          initialDelaySeconds: 15
+        lifecycle:
+          preStop:
+            exec:
+              command: ["sh", "-c", "sleep 10"]
+        volumeMounts:
+        - name: ebs-volume
+          mountPath: /var/lib/mysql
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: kubernetes
+        - name: SPRING_DATASOURCE_URL
+          value: jdbc:mysql://customers-db-mysql.spring-petclinic.svc.cluster.local:3306
+        - name: SPRING_DATASOURCE_USERNAME
+          value: root
+        - name: SPRING_DATASOURCE_PASSWORD
+          valueFrom: #voir avec AWS SECRET MANAGER
+             secretKeyRef:
+               name: db-mysql
+               key: mysql-root-password
+
+volumeClaimTemplates: #ebs à configurer - QUESTION: semble pas possible de monter un ebs sur plusieurs pods en simultané
+  - metadata:
+      name: ebs-volume  
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: aws-ebs 
+      resources:
+        requests:
+          storage: 10Gi 
+
