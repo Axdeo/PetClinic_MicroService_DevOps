@@ -52,9 +52,6 @@ spec:
             preStop:
               exec:
                 command: ["sh", "-c", "sleep 10"]
-          volumeMounts:
-          - name: ebs-volume
-            mountPath: /var/lib/mysql
           env:
           - name: SPRING_PROFILES_ACTIVE
             value: kubernetes
@@ -68,14 +65,5 @@ spec:
                 name: db-mysql
                 key: mysql-root-password
 
-volumeClaimTemplates: #ebs à configurer - QUESTION: semble pas possible de monter un ebs sur plusieurs pods en simultané
-  - metadata:
-      name: ebs-volume  # Nom significatif pour le volume
-    spec:
-      accessModes: [ "ReadWriteOnce" ]
-      storageClassName: aws-ebs 
-      resources:
-        requests:
-          storage: 1Gi 
 
 
