@@ -51,13 +51,12 @@ spec:
                 command: ["sh", "-c", "sleep 10"]
           resources:
             limits:
-              memory: 2Gi
-              cpu: 5000m
+              memory: 1Gi
             requests:
               cpu: 2000m
               memory: 1Gi
           env:
           - name: SPRING_PROFILES_ACTIVE
             value: kubernetes
-        restartPolicy: Always
+          restartPolicy: Always
 status: {}
