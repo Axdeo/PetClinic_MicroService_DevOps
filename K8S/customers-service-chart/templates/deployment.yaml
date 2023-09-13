@@ -1,0 +1,79 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "customers-service-chart.fullname" . }}
+  labels:
+    {{- include "customers-service-chart.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "customers-service-chart.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "customers-service-chart.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "customers-service-chart.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health/liveness
+            initialDelaySeconds: 90
+            periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              port: 8080
+              path: /actuator/health/readiness
+            initialDelaySeconds: 15
+          lifecycle:
+            preStop:
+              exec:
+                command: ["sh", "-c", "sleep 10"]
+          volumeMounts:
+          - name: ebs-volume
+            mountPath: /var/lib/mysql
+          env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: kubernetes
+          - name: SPRING_DATASOURCE_URL
+            value: jdbc:mysql://customers-db-mysql.spring-petclinic.svc.cluster.local:3306
+          - name: SPRING_DATASOURCE_USERNAME
+            value: root
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom: 
+              secretKeyRef: #voir avec AWS SECRET MANAGER
+                name: db-mysql
+                key: mysql-root-password
+
+volumeClaimTemplates: #ebs à configurer - QUESTION: semble pas possible de monter un ebs sur plusieurs pods en simultané
+  - metadata:
+      name: ebs-volume  # Nom significatif pour le volume
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: aws-ebs 
+      resources:
+        requests:
+          storage: 10Gi 
