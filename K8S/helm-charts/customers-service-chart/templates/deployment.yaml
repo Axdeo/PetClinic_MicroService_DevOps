@@ -76,4 +76,4 @@ volumeClaimTemplates: #ebs à configurer - QUESTION: semble pas possible de mont
       storageClassName: aws-ebs 
       resources:
         requests:
-          storage: 10Gi 
+          storage: 1Gi 
