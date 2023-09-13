@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "visits-service-chart.fullname" . }}
+  name: {{ .Chart.Name }}
   labels:
     {{- include "visits-service-chart.labels" . | nindent 4 }}
 spec:
