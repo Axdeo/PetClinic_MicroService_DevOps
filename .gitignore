@@ -19,3 +19,6 @@ target/
 
 # Branch switching
 generated/
+
+
+K8S/helm-charts/script_uninstall_install.sh
