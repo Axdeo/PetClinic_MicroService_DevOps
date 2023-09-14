@@ -55,8 +55,15 @@ spec:
             limits:
               memory: "1Gi"
               cpu: "500m"
+          envFrom:
+            - configMapRef:
+                name: petclinic-config
+            - secretRef:
+                name: database
           env:
-          - name: SPRING_PROFILES_ACTIVE
-            value: kubernetes
-          restartPolicy: Always
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom: #voir avec AWS SECRET MANAGER
+                secretKeyRef:
+                  name: mysql-secret
+                  key: mysql-root-password
 status: {}
