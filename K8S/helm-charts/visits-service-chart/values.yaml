@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: springcommunity/spring-petclinic-visits-service
+  repository: springcommunity/spring-petclinic-cloud-visits-service
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
