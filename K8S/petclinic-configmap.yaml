@@ -49,9 +49,9 @@ data:
         restart:
           enabled: true
         metrics:
-          enabled: true
+          enabled: false
         prometheus:
-          enabled: true
+          enabled: false
       endpoints:
         web:
           exposure:

@@ -56,8 +56,6 @@ spec:
               memory: "1Gi"
               cpu: "500m"
           envFrom:
-            - configMapRef:
-                name: petclinic-config
             - secretRef:
                 name: database
           env:
@@ -66,4 +64,7 @@ spec:
                 secretKeyRef:
                   name: mysql-secret
                   key: mysql-root-password
-
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:mysql://customers-db-mysql.spring-petclinic.svc.cluster.local:3306
+            - name: SPRING_DATASOURCE_USERNAME
+              value: petclinic

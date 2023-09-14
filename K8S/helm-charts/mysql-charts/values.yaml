@@ -1,13 +1,13 @@
 # Chart Values
 
 auth: 
-  database: petclinic-db
+  database: service_instance_db
   password: ""
   username: petclinic
   rootPassword: ""
   createDatabase: true
   existingSecret: mysql-secret
-  replicationUser: replicator
+  replicationUser: replicatorpetclinic-db
   usePasswordFiles: false
   customPasswordFiles: {}
   replicationPassword: ""
