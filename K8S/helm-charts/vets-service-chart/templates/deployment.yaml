@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Chart.Name }}
+  namespace: {{.Values.namespace}}
   labels:
     {{- include "vets-service-chart.labels" . | nindent 4 }}
 spec:
