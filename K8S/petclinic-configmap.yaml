@@ -68,11 +68,11 @@ data:
     vets-service-id: http://service-vets-microservice.spring-petclinic.svc.cluster.local:8080
 
     spring:
-      #datasource:
-        #schema: classpath*:db/mysql/schema.sql
-        #data: classpath*:db/mysql/data.sql
-        #platform: mysql
-        #initialization-mode: always
+      datasource:
+        schema: classpath*:db/mysql/schema.sql
+        data: classpath*:db/mysql/data.sql
+        platform: mysql
+        initialization-mode: always
 
       #jpa:
         #show-sql: true
