@@ -62,7 +62,7 @@ spec:
                   name: mysql-secret
                   key: mysql-root-password
             - name: SPRING_DATASOURCE_URL
-              value: jdbc:mysql://visits-db-mysql.spring-petclinic.svc.cluster.local:3306
+              value: jdbc:mysql://visits-db-mysql/service_instance_db
             - name: SPRING_DATASOURCE_USERNAME
               value: petclinic
 
