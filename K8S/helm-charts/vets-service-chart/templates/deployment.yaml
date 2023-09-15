@@ -51,10 +51,10 @@ spec:
           resources:
             requests:
               memory: "512Mi"
-              cpu: "250m"
+              cpu: "1000m"
             limits:
               memory: "1Gi"
-              cpu: "500m"
+              cpu: "2000m"
           env:
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom: #voir avec AWS SECRET MANAGER
