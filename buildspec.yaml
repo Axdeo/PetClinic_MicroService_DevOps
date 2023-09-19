@@ -34,7 +34,7 @@ phases:
       - echo Push $IMAGE_REPO_NAME completed on `date`
 
       - export IMAGE_REPO_NAME=spring-petclinic-customers-service
-      - cd $IMAGE_REPO_NAME/
+      - cd ../$IMAGE_REPO_NAME/
       - export IMAGE_NAME=$CODEBUILD_BUILD_NUMBER
       - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
@@ -49,7 +49,7 @@ phases:
       - echo Push $IMAGE_REPO_NAME completed on `date`
 
       - export IMAGE_REPO_NAME=spring-petclinic-vets-service
-      - cd $IMAGE_REPO_NAME/
+      - cd ../$IMAGE_REPO_NAME/
       - export IMAGE_NAME=$CODEBUILD_BUILD_NUMBER
       - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
@@ -64,7 +64,7 @@ phases:
       - echo Push $IMAGE_REPO_NAME completed on `date`
 
       - export IMAGE_REPO_NAME=spring-petclinic-visits-service
-      - cd $IMAGE_REPO_NAME/
+      - cd ../$IMAGE_REPO_NAME/
       - export IMAGE_NAME=$CODEBUILD_BUILD_NUMBER
       - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
