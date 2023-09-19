@@ -5,10 +5,22 @@ phases:
     commands:
       -echo "npm installation"
       - npm install
-  test:
+  pre_build:
     commands:
-      -echo "run maven tests on the microservices code"
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - $(aws ecr get-login --no-include-email --region eu-west-3)
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo "run maven tests on the microservices code"
       - ./mvnw clean test
+  post_build:
+    commands:
+      - echo Build Maven Complete on `date`
+      - echo Building and Pushing image to ECR...
+
+
 
 artifacts:
   files:
