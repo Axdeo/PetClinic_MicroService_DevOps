@@ -1,0 +1,15 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      -echo "npm installation"
+      - npm install
+  test:
+    commands:
+      -echo "run maven tests on the microservices code"
+      - ./mvnw clean test
+
+artifacts:
+  files:
+    - '**/*'
