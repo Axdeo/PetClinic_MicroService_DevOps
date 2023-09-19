@@ -18,14 +18,14 @@ phases:
     commands:
       - echo Build Maven Complete on `date`
       - echo Building and Pushing image to ECR...
-      - export MICROSERVICE=spring-petclinic-api-gateway
-      - cd $MICROSERVICE/
-      - export IMAGE_NAME=$MICROSERVICE-$CODEBUILD_BUILD_NUMBER
+      - export IMAGE_REPO_NAME=spring-petclinic-api-gateway
+      - cd $IMAGE_REPO_NAME/
+      - export IMAGE_NAME=$CODEBUILD_BUILD_NUMBER
       - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
-      - docker tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$MICROSERVICE:latest      
+      - docker tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest      
       - echo Build $IMAGE_NAME completed on `date`
       - export IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
-      - export IMAGE_LATEST=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$MICROSERVICE:latest 
+      - export IMAGE_LATEST=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest 
       - echo "Image path $IMAGE_PATH"
       - echo Pushing the Docker image...
       - docker push $IMAGE_PATH
