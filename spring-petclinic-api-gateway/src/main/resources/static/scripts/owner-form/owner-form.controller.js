@@ -16,15 +16,20 @@ angular.module('ownerForm')
 
         self.submitOwnerForm = function () {
             var id = self.owner.id;
-
+            var req;
             if (id) {
-                $http.put('api/customer/owners/' + id, self.owner).then(function () {
-                    $state.go('ownerDetails', {ownerId: ownerId});
-                });
+                req = $http.put("api/customer/owners/" + id, self.owner);
             } else {
-                $http.post('api/customer/owners', self.owner).then(function () {
-                    $state.go('owners');
-                });
+                req = $http.post("api/customer/owners", self.owner);
             }
+
+            req.then(function () {
+                $state.go('owners');
+            }, function (response) {
+                var error = response.data;
+                alert(error.error + "\r\n" + error.errors.map(function (e) {
+                        return e.field + ": " + e.defaultMessage;
+                    }).join("\r\n"));
+            });
         };
     }]);

@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,15 +15,17 @@
  */
 package org.springframework.samples.petclinic.api.application;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.samples.petclinic.api.dto.Visits;
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
+import static java.util.stream.Collectors.joining;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.joining;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.samples.petclinic.api.dto.Visits;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import lombok.RequiredArgsConstructor;
+import reactor.core.publisher.Mono;
 
 /**
  * @author Maciej Szarlinski
@@ -32,15 +34,15 @@ import static java.util.stream.Collectors.joining;
 @RequiredArgsConstructor
 public class VisitsServiceClient {
 
-    // Could be changed for testing purpose
-    private String hostname = "http://visits-service/";
+	@Value("${visits-service-id://visits-service}")
+    private String hostname;
 
     private final WebClient.Builder webClientBuilder;
 
     public Mono<Visits> getVisitsForPets(final List<Integer> petIds) {
         return webClientBuilder.build()
             .get()
-            .uri(hostname + "pets/visits?petId={petId}", joinIds(petIds))
+            .uri(hostname + "/pets/visits?petId={petId}", joinIds(petIds))
             .retrieve()
             .bodyToMono(Visits.class);
     }

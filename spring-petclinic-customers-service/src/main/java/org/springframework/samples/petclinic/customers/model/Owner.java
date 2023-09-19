@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,20 +21,18 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.validation.constraints.Digits;
-import jakarta.validation.constraints.NotBlank;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.NotEmpty;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.beans.support.MutableSortDefinition;
 import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
@@ -47,7 +45,6 @@ import org.springframework.core.style.ToStringCreator;
  * @author Sam Brannen
  * @author Michael Isvy
  * @author Maciej Szarlinski
- * @author Ramazan Sakin
  */
 @Entity
 @Table(name = "owners")
@@ -55,42 +52,75 @@ public class Owner {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
     private Integer id;
 
-    @Getter
-    @Setter
     @Column(name = "first_name")
-    @NotBlank
+    @NotEmpty
     private String firstName;
 
-    @Getter
-    @Setter
     @Column(name = "last_name")
-    @NotBlank
+    @NotEmpty
     private String lastName;
 
-    @Getter
-    @Setter
     @Column(name = "address")
-    @NotBlank
+    @NotEmpty
     private String address;
 
-    @Getter
-    @Setter
     @Column(name = "city")
-    @NotBlank
+    @NotEmpty
     private String city;
 
-    @Getter
-    @Setter
     @Column(name = "telephone")
-    @NotBlank
-    @Digits(fraction = 0, integer = 12)
+    @NotEmpty
+    @Digits(fraction = 0, integer = 10)
     private String telephone;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "owner")
     private Set<Pet> pets;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(final String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(final String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCity() {
+        return this.city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getTelephone() {
+        return this.telephone;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
 
     protected Set<Pet> getPetsInternal() {
         if (this.pets == null) {

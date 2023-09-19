@@ -1,5 +1,5 @@
 /*
- * Copyright 2002-2021 the original author or authors.
+ * Copyright 2002-2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,7 +22,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.samples.petclinic.customers.model.*;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.constraints.Min;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +30,6 @@ import java.util.Optional;
  * @author Ken Krebs
  * @author Arjen Poutsma
  * @author Maciej Szarlinski
- * @author Ramazan Sakin
  */
 @RestController
 @Timed("petclinic.pet")
@@ -52,13 +50,13 @@ class PetResource {
     @ResponseStatus(HttpStatus.CREATED)
     public Pet processCreationForm(
         @RequestBody PetRequest petRequest,
-        @PathVariable("ownerId") @Min(1) int ownerId) {
-
-        final Optional<Owner> optionalOwner = ownerRepository.findById(ownerId);
-        Owner owner = optionalOwner.orElseThrow(() -> new ResourceNotFoundException("Owner "+ownerId+" not found"));
+        @PathVariable("ownerId") int ownerId) {
 
         final Pet pet = new Pet();
+        final Optional<Owner> optionalOwner = ownerRepository.findById(ownerId);
+        Owner owner = optionalOwner.orElseThrow(() -> new ResourceNotFoundException("Owner "+ownerId+" not found"));
         owner.addPet(pet);
+
         return save(pet, petRequest);
     }
 
