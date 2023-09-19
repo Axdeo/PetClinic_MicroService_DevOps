@@ -12,14 +12,14 @@ phases:
       - echo Build started on `date`
       - echo "run maven tests on the microservices code"
       - ./mvnw clean test
-      
+
   post_build:
     commands:
       - echo Build Maven Complete on `date`
       - echo Building and Pushing image to ECR...
       - export MICROSERVICE=spring-petclinic-api-gateway
       - cd $MICROSERVICE/
-      - export IMAGE_NAME= $MICROSERVICE-$CODEBUILD_BUILD_NUMBER
+      - export IMAGE_NAME=$MICROSERVICE-$CODEBUILD_BUILD_NUMBER
       - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
       - echo Build $IMAGE_NAME completed on `date`
@@ -31,7 +31,7 @@ phases:
 
       - export MICROSERVICE=spring-petclinic-customers-service
       - cd ../$MICROSERVICE/
-      - export IMAGE_NAME= $MICROSERVICE-$CODEBUILD_BUILD_NUMBER
+      - export IMAGE_NAME=$MICROSERVICE-$CODEBUILD_BUILD_NUMBER
       - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
       - echo Build $IMAGE_NAME completed on `date`
@@ -43,7 +43,7 @@ phases:
 
       - export MICROSERVICE=spring-petclinic-vets-service
       - cd ../$MICROSERVICE/
-      - export IMAGE_NAME= $MICROSERVICE-$CODEBUILD_BUILD_NUMBER
+      - export IMAGE_NAME=$MICROSERVICE-$CODEBUILD_BUILD_NUMBER
       - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
       - echo Build $IMAGE_NAME completed on `date`
@@ -55,7 +55,7 @@ phases:
 
       - export MICROSERVICE=spring-petclinic-visits-service
       - cd ../$MICROSERVICE/
-      - export IMAGE_NAME= $MICROSERVICE-$CODEBUILD_BUILD_NUMBER
+      - export IMAGE_NAME=$MICROSERVICE-$CODEBUILD_BUILD_NUMBER
       - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
       - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
       - echo Build $IMAGE_NAME completed on `date`
