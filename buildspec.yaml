@@ -6,62 +6,35 @@ phases:
       - echo Logging in to Amazon ECR...
       - aws --version
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  
   build:
     commands:
       - echo Build started on `date`
       - echo "run maven tests on the microservices code"
       - ./mvnw clean test
+      
   post_build:
     commands:
       - echo Build Maven Complete on `date`
       - echo Building and Pushing image to ECR...
-      - export MICROSERVICE=spring-petclinic-api-gateway
-      - cd $MICROSERVICE/
-      - export IMAGE_NAME= $MICROSERVICE-$CODEBUILD_BUILD_NUMBER
-      - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
-      - echo Build $IMAGE_NAME completed on `date`
-      - export IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
-      - echo "Image path $IMAGE_PATH"
-      - echo Pushing the Docker image...
-      - docker push $IMAGE_PATH
-      - echo Push $IMAGE_NAME completed on `date`
+      - build_and_push_image() {
+          MICROSERVICE=$1
+          cd $MICROSERVICE/
+          IMAGE_NAME=$MICROSERVICE-$CODEBUILD_BUILD_NUMBER
+          docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
+          docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
+          echo Build $IMAGE_NAME completed on `date`
+          IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
+          echo "Image path $IMAGE_PATH"
+          echo Pushing the Docker image...
+          docker push $IMAGE_PATH
+          echo Push $IMAGE_NAME completed on `date`
+        }
 
-      - export MICROSERVICE=spring-petclinic-customers-service
-      - cd ../$MICROSERVICE/
-      - export IMAGE_NAME= $MICROSERVICE-$CODEBUILD_BUILD_NUMBER
-      - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
-      - echo Build $IMAGE_NAME completed on `date`
-      - export IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
-      - echo "Image path $IMAGE_PATH"
-      - echo Pushing the Docker image...
-      - docker push $IMAGE_PATH
-      - echo Push $IMAGE_NAME completed on `date`
-
-      - export MICROSERVICE=spring-petclinic-vets-service
-      - cd ../$MICROSERVICE/
-      - export IMAGE_NAME= $MICROSERVICE-$CODEBUILD_BUILD_NUMBER
-      - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
-      - echo Build $IMAGE_NAME completed on `date`
-      - export IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
-      - echo "Image path $IMAGE_PATH"
-      - echo Pushing the Docker image...
-      - docker push $IMAGE_PATH
-      - echo Push $IMAGE_NAME completed on `date`
-
-      - export MICROSERVICE=spring-petclinic-visits-service
-      - cd ../$MICROSERVICE/
-      - export IMAGE_NAME= $MICROSERVICE-$CODEBUILD_BUILD_NUMBER
-      - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
-      - echo Build $IMAGE_NAME completed on `date`
-      - export IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
-      - echo "Image path $IMAGE_PATH"
-      - echo Pushing the Docker image...
-      - docker push $IMAGE_PATH
-      - echo Push $IMAGE_NAME completed on `date`
+      - build_and_push_image spring-petclinic-api-gateway
+      - build_and_push_image spring-petclinic-customers-service
+      - build_and_push_image spring-petclinic-vets-service
+      - build_and_push_image spring-petclinic-visits-service
 
 
 artifacts:
