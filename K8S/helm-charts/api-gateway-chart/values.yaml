@@ -5,14 +5,16 @@
 replicaCount: 1
 
 image:
-  repository: springcommunity/spring-petclinic-cloud-api-gateway
-  pullPolicy: IfNotPresent
+  repository: 477995668264.dkr.ecr.eu-west-3.amazonaws.com/spring-petclinic-api-gateway
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "latest"
 
 namespace: spring-petclinic
 
-imagePullSecrets: []
+imagePullSecrets:
+  - name : aws-ecr-secret
+
 nameOverride: ""
 fullnameOverride: ""
 
