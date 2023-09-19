@@ -1,0 +1,11 @@
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/ApiGatewayApplication.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/dto/PetDetails.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/boundary/web/ApiGatewayController.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/application/CustomersServiceClient.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/dto/OwnerDetails.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/ApiGatewayDiscoveryConfig.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/dto/PetType.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/application/VisitsServiceClient.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/dto/Visits.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/dto/VisitDetails.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-api-gateway/src/main/java/org/springframework/samples/petclinic/api/boundary/web/InsecurityConfiguration.java

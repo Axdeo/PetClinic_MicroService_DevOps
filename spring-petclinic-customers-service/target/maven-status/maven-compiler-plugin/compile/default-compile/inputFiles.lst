@@ -1,0 +1,13 @@
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/model/Pet.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/web/OwnerResource.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/web/PetRequest.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/web/ResourceNotFoundException.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/model/Owner.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/model/PetRepository.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/security/InsecurityConfiguration.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/CustomersServiceApplication.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/web/PetDetails.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/model/PetType.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/DiscoveryConfig.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/web/PetResource.java
+/home/axel/DevOps/PetClinic_MicroService_DevOps/spring-petclinic-customers-service/src/main/java/org/springframework/samples/petclinic/customers/model/OwnerRepository.java
