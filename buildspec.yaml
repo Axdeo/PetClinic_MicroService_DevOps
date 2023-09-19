@@ -22,13 +22,15 @@ phases:
       - cd $MICROSERVICE/
       - export IMAGE_NAME=$MICROSERVICE-$CODEBUILD_BUILD_NUMBER
       - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
-      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
+      - docker tag $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$MICROSERVICE:latest      
       - echo Build $IMAGE_NAME completed on `date`
       - export IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
+      - export IMAGE_LATEST=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$MICROSERVICE:latest 
       - echo "Image path $IMAGE_PATH"
       - echo Pushing the Docker image...
       - docker push $IMAGE_PATH
-      - echo Push $IMAGE_NAME completed on `date`
+      - docker push $IMAGE_LATEST
+      - echo Push $IMAGE_NAME & $MICROSERVICE:latest completed on `date`
 
       - export MICROSERVICE=spring-petclinic-customers-service
       - cd ../$MICROSERVICE/
