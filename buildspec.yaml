@@ -1,10 +1,6 @@
 version: 0.2
 
 phases:
-  install:
-    commands:
-      -echo "npm installation"
-      - npm install
   pre_build:
     commands:
       - echo Logging in to Amazon ECR...
