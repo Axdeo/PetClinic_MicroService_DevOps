@@ -43,6 +43,7 @@ phases:
       - echo Build $IMAGE_NAME completed on `date`
 
       - cd ..
+      - docker image ls
       - docker-compose up -d 
       - sleep 30
       - curl localhost:8080
