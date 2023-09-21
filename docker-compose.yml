@@ -19,7 +19,7 @@ services:
      - 8761:8761
 
   customers-service:
-    image: springcommunity/spring-petclinic-customers-service
+    image: spring-petclinic-customers-service:latest
     container_name: customers-service
     mem_limit: 512M
     depends_on:
@@ -27,10 +27,10 @@ services:
      - discovery-server
     entrypoint: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "org.springframework.boot.loader.JarLauncher"]
     ports:
-    - 8081:8081
+    - 8081:8080
 
   visits-service:
-    image: springcommunity/spring-petclinic-visits-service
+    image: spring-petclinic-visits-service:latest
     container_name: visits-service
     mem_limit: 512M
     depends_on:
@@ -38,10 +38,10 @@ services:
      - discovery-server
     entrypoint: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "org.springframework.boot.loader.JarLauncher"]
     ports:
-     - 8082:8082
+     - 8082:8080
 
   vets-service:
-    image: springcommunity/spring-petclinic-vets-service
+    image: spring-petclinic-vets-service:latest
     container_name: vets-service
     mem_limit: 512M
     depends_on:
@@ -49,10 +49,10 @@ services:
      - discovery-server
     entrypoint: ["./dockerize","-wait=tcp://discovery-server:8761","-timeout=60s","--","java", "org.springframework.boot.loader.JarLauncher"]
     ports:
-     - 8083:8083
+     - 8083:8080
 
   api-gateway:
-    image: springcommunity/spring-petclinic-api-gateway
+    image: spring-petclinic-api-gateway:latest
     container_name: api-gateway
     mem_limit: 512M
     depends_on:
@@ -82,18 +82,3 @@ services:
     ports:
      - 9090:9090
 
-  ## Grafana / Prometheus
-
-  grafana-server:
-    build: ./docker/grafana
-    container_name: grafana-server
-    mem_limit: 256M
-    ports:
-    - 3000:3000
-
-  prometheus-server:
-    build: ./docker/prometheus
-    container_name: prometheus-server
-    mem_limit: 256M
-    ports:
-    - 9091:9090

@@ -1,0 +1,94 @@
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws --version
+      - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
+  
+  build:
+    commands:
+      - echo Building docker image...
+      - export IMAGE_REPO_NAME=spring-petclinic-api-gateway
+      - cd $IMAGE_REPO_NAME/
+      - export IMAGE_NAME=$CODEBUILD_BUILD_NUMBER
+      - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
+      - echo Build $IMAGE_NAME completed on `date`
+
+
+      - export IMAGE_REPO_NAME=spring-petclinic-customers-service
+      - cd ../$IMAGE_REPO_NAME/
+      - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
+      - echo Build $IMAGE_NAME completed on `date`
+
+
+      - export IMAGE_REPO_NAME=spring-petclinic-vets-service
+      - cd ../$IMAGE_REPO_NAME/
+      - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
+      - echo Build $IMAGE_NAME completed on `date`
+
+
+      - export IMAGE_REPO_NAME=spring-petclinic-visits-service
+      - cd ../$IMAGE_REPO_NAME/
+      - docker build --tag $IMAGE_REPO_NAME:$IMAGE_NAME .
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest
+      - docker tag $IMAGE_REPO_NAME:$IMAGE_NAME $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME      
+      - echo Build $IMAGE_NAME completed on `date`
+
+      - cd ..
+      - docker-compose up -d 
+      - sleep 30
+      - curl localhost:8080
+
+
+  post_build:
+    commands:
+      - echo Pushing docker images to ECR...
+      - export IMAGE_REPO_NAME=spring-petclinic-api-gateway
+      - export IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
+      - export IMAGE_LATEST=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest 
+      - echo "Image path $IMAGE_PATH"
+      - echo Pushing the Docker image...
+      - docker push $IMAGE_LATEST
+      - docker push $IMAGE_PATH
+      - echo Push $IMAGE_REPO_NAME completed on `date`
+
+      - export IMAGE_REPO_NAME=spring-petclinic-customers-service
+      - export IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
+      - export IMAGE_LATEST=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest 
+      - echo "Image path $IMAGE_PATH"
+      - echo Pushing the Docker image...
+      - docker push $IMAGE_LATEST
+      - docker push $IMAGE_PATH
+      - echo Push $IMAGE_REPO_NAME completed on `date`
+
+      - export IMAGE_REPO_NAME=spring-petclinic-vets-service
+      - export IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
+      - export IMAGE_LATEST=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest 
+      - echo "Image path $IMAGE_PATH"
+      - echo Pushing the Docker image...
+      - docker push $IMAGE_LATEST
+      - docker push $IMAGE_PATH
+      - echo Push $IMAGE_REPO_NAME completed on `date`
+
+      - export IMAGE_REPO_NAME=spring-petclinic-visits-service
+      - export IMAGE_PATH=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_NAME
+      - export IMAGE_LATEST=$AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:latest 
+      - echo "Image path $IMAGE_PATH"
+      - echo Pushing the Docker image...
+      - docker push $IMAGE_LATEST
+      - docker push $IMAGE_PATH
+      - echo Push $IMAGE_REPO_NAME completed on `date`
+
+      - echo all docker images pushed to ECR
+
+artifacts:
+  files:
+    - '**/*'
