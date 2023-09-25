@@ -41,6 +41,7 @@ securityContext: {}
   # runAsUser: 1000
 
 service:
+  name: service-api-gateway
   type: NodePort
   port: 8080
   #nodePort: 30000
@@ -48,14 +49,18 @@ service:
 ingress:
   enabled: true
   className: alb
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
+  annotations: 
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    kubernetes.io/ingress.class: alb
+
+
   hosts:
     - host: petclinic.click
       paths:
         - path: /
-          pathType: ImplementationSpecific
+          pathType: Prefix
+         
   tls: []
   #  - secretName: chart-example-tls
   #    hosts:
