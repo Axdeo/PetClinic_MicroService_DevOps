@@ -43,7 +43,7 @@ spec:
             httpGet:
               port: 8080
               path: /actuator/health/readiness
-            initialDelaySeconds: 15
+            initialDelaySeconds: 60
           lifecycle:
             preStop:
               exec:
@@ -51,10 +51,10 @@ spec:
           resources:
             requests:
               memory: "512Mi"
-              cpu: "1000m"
+              cpu: "500m"
             limits:
               memory: "1Gi"
-              cpu: "2000m"
+              cpu: "1000m"
           env:
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom: #voir avec AWS SECRET MANAGER
