@@ -35,8 +35,8 @@ spec:
              pathType: Prefix
              backend:
                service:
-                 name: "service-api-gateway"
+                 name: {{ .Values.service.name }}
                  port:
-                   number: 8080
+                   number: {{ .Values.service.port }}
 
 {{- end }}

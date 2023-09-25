@@ -51,8 +51,9 @@ ingress:
   className: alb
   annotations: 
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]'
-    alb.ingress.kubernetes.io/scheme: internet-facing
-    kubernetes.io/ingress.class: alb
+    alb.ingress.kubernetes.io/scheme: internal
+    alb.ingress.kubernetes.io/target-type: instance
+    #kubernetes.io/ingress.class: alb
 
 
   hosts:
