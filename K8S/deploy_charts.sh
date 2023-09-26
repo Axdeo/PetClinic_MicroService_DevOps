@@ -20,7 +20,7 @@ helm upgrade --install customers-db-mysql bitnami/mysql -n spring-petclinic --va
 helm upgrade --install visits-db-mysql bitnami/mysql -n spring-petclinic --values=values.yaml
 
 cd ../api-gateway-chart/
-helm upgrade --install api-gateway . --values=values.yaml --set ingress=$CREATE_INGRESS,service=$SERVICE_TYPE
+helm upgrade --install api-gateway . --values=values.yaml --set ingress.enabled=$CREATE_INGRESS,service.type=$SERVICE_TYPE
 
 cd ../customers-service-chart/
 helm upgrade --install customers-service . --values=values.yaml
