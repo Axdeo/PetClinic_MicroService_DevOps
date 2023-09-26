@@ -45,6 +45,22 @@ phases:
       - cd ..
       - docker image ls
       - docker-compose up -d 
+      - |
+        # Script to wait for API to become available
+        max_attempts=30
+        interval=10
+        attempts=0
+
+        while [ $attempts -lt $max_attempts ]; do
+            if curl -s -o /dev/null http://localhost:8080/; then
+                echo "API is ready."
+                break
+            else
+                echo "Waiting for API..."
+                attempts=$((attempts + 1))
+                sleep $interval
+            fi
+        done
       - curl http://localhost:8080/
 
 
