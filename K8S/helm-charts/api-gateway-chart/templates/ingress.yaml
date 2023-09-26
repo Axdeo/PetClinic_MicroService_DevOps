@@ -29,7 +29,8 @@ spec:
     - hosts:
         - petclinic.click
   rules:
-      - http:
+      - host: petclinic.click 
+        http:
          paths:
            - path: /
              pathType: Prefix
