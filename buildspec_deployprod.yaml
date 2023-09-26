@@ -15,3 +15,5 @@ phases:
 artifacts:
   files:
     - '**/'
+
+if: branches == 'main'
