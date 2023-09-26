@@ -16,4 +16,5 @@ artifacts:
   files:
     - '**/'
 
-if: branches == 'main'
+if: 
+  branch: 'prod'
