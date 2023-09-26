@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      docker: 18
+    commands:
+      - echo "Install phase"
+      - bash ./scripts/install_dependencies.sh  # Le nom du script d'installation
+
+  build:
+    commands:
+      - echo "Build phase"
+      - cd ./K8S/
+      - bash ./scripts/deploy_charts.sh  # Le nom du script de déploiement
+
+artifacts:
+  files:  # Spécifiez les fichiers à inclure dans les artefacts de construction (s'il y en a)
+    - chemin-vers-vos-fichiers
+
