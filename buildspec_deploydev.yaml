@@ -1,5 +1,10 @@
 version: 0.2
 
+env:
+  secrets-manager:
+    AWS_SECRET_ACCESS_KEY: "awscli_token:AWS_SECRET_ACCESS_KEY"
+    AWS_ACCESS_KEY: "awscli_token:AWS_ACCESS_KEY"
+
 phases:
   install:
     commands:
