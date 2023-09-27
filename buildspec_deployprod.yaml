@@ -20,6 +20,3 @@ phases:
 artifacts:
   files:
     - '**/'
-
-if: 
-  branch: 'prod'
