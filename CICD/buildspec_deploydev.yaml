@@ -1,0 +1,21 @@
+version: 0.2
+
+env:
+  secrets-manager:
+    AWS_SECRET_ACCESS_KEY: "awscli_token:AWS_SECRET_ACCESS_KEY"
+    AWS_ACCESS_KEY: "awscli_token:AWS_ACCESS_KEY"
+
+phases:
+  install:
+    commands:
+      - cd ${CODEBUILD_SRC_DIR}/K8S/
+      - echo "Install phase"
+      - bash ./install_dependencies.sh 
+
+  build:
+    commands:
+      - echo "Deploy des charts"
+      - bash ./deploy_charts.sh
+artifacts:
+  files:
+    - '**/'
