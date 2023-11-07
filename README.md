@@ -31,7 +31,8 @@ Each services except the api-gateway have a mysql database attached in the eks c
     spring-petclinic-visits-services/ - Source code & DockerFile for the Visits microservice.
     spring-petclinic-customers-services/ - Source code & DockerFile for the Customers microservice.
     K8S/ - Objects & Helms charts for deploy in K8S
-    
+    CICD/ BuildSpec files for the builds of AWS CodePipeline
+
 ## Starting services locally with docker-compose
 In order to start entire infrastructure using Docker, you have to build images by executing `./mvnw clean install -P buildDocker` 
 from a project root. Once images are ready, you can start them with a single command
@@ -40,7 +41,20 @@ After starting services, it takes a while for API Gateway to be in sync with ser
 so don't be scared of initial Spring Cloud Gateway timeouts. You can track services availability using Eureka dashboard
 available by default at http://localhost:8761.
 
+## AWS Infrastructure Deployment
 
+The AWS infrastructure, including the EKS cluster, is managed with Terraform. The Terraform scripts are located in another GitHub repository, which you can find here (https://github.com/Axdeo/PetClinic_DevOps_Infra/) .
+
+
+## CI CD
+
+You have to create a Codepipeline project with one build per buildspec files in the CICD/ directory:
+	1- buildspec.yaml : to run test on the microservices' source code and to build the artifacts
+	2- buildspec_docker.yaml: to build the microservices' docker images, to test them and finally top push them in an ECR registry
+	3- buildspec_deploydev.yaml / buildspec_deployprod.yaml: to install/upgrade the helm charts of the microservices in your EKS cluster. One file for a dev environment and the other for the prod.
+	
+	
+----------------------------------------------------
 
 
 ## Custom metrics monitoring
